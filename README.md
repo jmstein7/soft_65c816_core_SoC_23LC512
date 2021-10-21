@@ -1,6 +1,6 @@
 # soft_65c816_core_SoC_23LC512
 
-This project comprises a 65c816 Soft Core SoC with Static SRAM Driver (23LC512) and XMODEM Bootloader to load your programs into RAM from a PC via a terminal program. The target here is a Xilinx Arty A7, using a soft 65c816 core, with distributed memory for the RAM and ROM, though the design has an additional 64k mapped from 0x10000-0x20000.
+This project comprises a 65c816 Soft Core SoC with Serial SRAM Driver (23LC512) and XMODEM Bootloader to load your programs into RAM from a PC via a terminal program. The target here is a Xilinx Arty A7, using a soft 65c816 core, with distributed memory for the RAM and ROM, though the design has an additional 64k of serial SRAM mapped from 0x10000-0x20000.
 
 The 65c816 is the 8/16-bit big brother of the 65c02, used in the SNES and Apple II GS. https://www.westerndesigncenter.com/wdc/documentation/w65c816s.pdf The 65c816 core is adapted from a SNES FPGA project.
 
