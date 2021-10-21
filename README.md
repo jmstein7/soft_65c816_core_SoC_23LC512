@@ -14,7 +14,7 @@ You can load your programs into RAM as .prg files. Enter "X" at the monitor prom
 
 Run your program by using the address + "R" at the monitor prompt. For example, if you load your program at $1000, you would type 1000R and then enter. Make sure to jump or rts out to $C385 at the end of your program. This is the exit point that will return you to your monitor.
 
-The project includes a QSPI (Quad SPI) driver written for the specs of the 23LC512 by Microchip. 
+The project includes a QSPI (Quad SPI) driver written for the specs of the 23LC512 by Microchip. See the XDC file, as the Serial SRAM is connected at standard PMOD JA.
 
 "L" clears the Zero Page and resets the stack from the monitor. I am currently working on a design that allows the user to replace the ROM monitor at will.
 
