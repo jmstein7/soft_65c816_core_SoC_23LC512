@@ -1,4 +1,4 @@
-# 65c816 Soft Core SoC (with Replaceable Monitor) and Serial Ram Driver (23LC512).
+# 65c816 Soft Core SoC (with Replaceable Monitor) and Serial SRAM Driver (23LC512).
 
 This project comprises a 65c816 Soft Core SoC with Serial SRAM Driver (23LC512) and XMODEM Bootloader to load your programs into RAM from a PC via a terminal program. The target here is a Xilinx Arty A7, using a soft 65c816 core, with block memory for the RAM and ROM, though the design has an additional 64k of serial SRAM mapped from 0x10000-0x20000.
 
