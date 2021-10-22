@@ -1,22 +1,39 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Jonathan Stein
 // 
 // Create Date: 10/20/2021 10:56:44 AM
 // Design Name: 
 // Module Name: top_level
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
+// Project Name: 65c816 Complete SoC
+// Target Devices: Xilinx Arty A7 or other FPGAs or ASICs
+// Tool Versions: Vivado v2020.2
+// Description: top level of the project
 // 
 // Dependencies: 
 // 
 // Revision:
-// Revision 0.01 - File Created
+// Revision 0.09 - File Created
 // Additional Comments:
-// 
+//
+//   This work comprises a complete FPGA "System on a Chip" ("SoC")with a "soft" 
+//   65c816 CPU Core at its center.
+//
+//   Copyright (C) 2021  Jonathan Stein, New York, USA
+//
+//   This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -38,6 +55,7 @@ module top_level(
     );
     
     //SSRAM
+    logic ram_clk;
     logic ssram_enable;
     logic ssram_begin;
     logic ssram_valid;
@@ -167,28 +185,32 @@ module top_level(
 end
    /////////////////
 
-  clk_wiz_0 instance_name
+  clk_wiz_0 main_clocks
    (
     // Clock out ports
     .phi2(phi2),     // output phi2
     .sclk(sclk),     // output sclk
+    .ram_clk(ram_clk),     // output ram_clk
     // Status and control signals
     .reset(reset), // input reset
     .locked(locked),       // output locked
    // Clock in ports
     .clk(sysclk));      // input clk
-//----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
-dist_mem_gen_0 ROM_one (
-  .a(address[13:0]),      // input wire [13 : 0] a
-  .spo(rom_out)  // output wire [7 : 0] spo
+
+main_ROM your_instance_name (
+  .clka(ram_clk),    // input wire clka
+  .ena(rom_enable),      // input wire ena
+  .addra(address[13:0]),  // input wire [13 : 0] addra
+  .douta(rom_out)  // output wire [7 : 0] douta
 );
-// INST_TAG_END ------ End INSTANTIATION Template ---------
-dist_mem_gen_1 main_RAM (
-  .a(address[14:0]),      // input wire [14 : 0] a
-  .d(ram_in),      // input wire [7 : 0] d
-  .clk(phi2),  // input wire clk
-  .we(~rwb),    // input wire we
-  .spo(ram_out)  // output wire [7 : 0] spo
+
+Block_RAM_32k first_RAM_block (
+  .clka(ram_clk),    // input wire clka
+  .ena(ram_enable),      // input wire ena
+  .wea(~rwb),      // input wire [0 : 0] wea
+  .addra(address[14:0]),  // input wire [14 : 0] addra
+  .dina(ram_in),    // input wire [7 : 0] dina
+  .douta(ram_out)  // output wire [7 : 0] douta
 );
   
   assign reg_select = address[1:0]; 
