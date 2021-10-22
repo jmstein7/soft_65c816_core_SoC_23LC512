@@ -81,6 +81,8 @@ module top_level(
     logic cts;
     
     /* Main Control Signals */
+    logic [7:0] kern_out;
+    logic kern_enable;
     logic sclk; 
     logic phi2;
     logic we;
@@ -94,6 +96,7 @@ module top_level(
     
     /* Main Memories */
     logic [7:0] rom_out;
+    logic [7:0] eeprom_in;
     logic [7:0] ram_out;
     logic [7:0] ram_in;
     
@@ -129,14 +132,17 @@ module top_level(
     /* Static Memory Maps */
     assign acia_enable = ((address >= 24'h008000 && address < 24'h008010) && vpvda) ? 1'b1 : 1'b0;
     assign ssram_enable = ((address >= 24'h010000 && address < 24'h020000) && vpvda) ? 1'b1 : 1'b0;
-    
+    assign kern_enable = ((address >= 24'h00B000 && address < 24'h00B500) && vpvda) ? 1'b1 : 1'b0;
     /* In to Processor */
-    assign data_in = (rwb) ? (rom_enable ? rom_out : (ram_enable ? ram_out : (acia_enable ? acia_out : (ssram_enable ? ssram_out : 'bZ)))) : 'bZ;
+    assign data_in = (rwb) ? (rom_enable ? rom_out : (ram_enable ? ram_out : (acia_enable ? acia_out : 
+    (ssram_enable ? ssram_out : (kern_enable ? kern_out : 'bZ))))) : 'bZ;
     
     /* Out from Processor */
     assign ram_in = (ram_enable && ~rwb) ? data_out : 'bZ;
+    assign eeprom_in = (rom_enable && ~rwb) ? data_out : 'bZ;
     assign acia_in = (acia_enable && ~rwb) ? data_out : 'bZ;
     assign ssram_in = (ssram_enable && ~rwb) ? data_out : 'bZ;
+    
     
     P65C816 cpu_one( 
         .CLK(phi2),			 //: in std_logic;
@@ -197,10 +203,17 @@ end
    // Clock in ports
     .clk(sysclk));      // input clk
 
-main_ROM your_instance_name (
+bios_kern monitor_update (
+  .a(address[11:0]),      // input wire [11 : 0] a
+  .spo(kern_out)  // output wire [7 : 0] spo
+);
+
+EEPROM_alpha EEPROM_one (
   .clka(ram_clk),    // input wire clka
   .ena(rom_enable),      // input wire ena
+  .wea(~rwb),      // input wire [0 : 0] wea
   .addra(address[13:0]),  // input wire [13 : 0] addra
+  .dina(eeprom_in),    // input wire [7 : 0] dina
   .douta(rom_out)  // output wire [7 : 0] douta
 );
 
