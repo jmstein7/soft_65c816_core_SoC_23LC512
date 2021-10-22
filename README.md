@@ -6,6 +6,8 @@ The 65c816 is the 8/16-bit big brother of the 65c02, used in the SNES and Apple 
 
 The SoC has a small monitor in ROM ($C000-$FFFF), a soft ACIA at $8000, and (distributed) RAM from $0000-$7FFF. The LEDs indicate reset status, and BTN0 serves as the reset (active high). The constraints file shows which pins to connect from the 'c816 to the Arty. The monitor resides in the COE file.
 
+If you want to replace the monitor ($C000-$FFFF), there is a small bit of ROM at $B000. If you run it (B000R at the  built-in monitor), it will start an Xmodem transaction that will allow you to upload a .prg file to replace the current monitor - all without re-synthesizing and re-implementing the whole thing! 
+
 This design also requires a 1.8432mhz external oscillator (clock) to be connected to the Arty so that the ACIA will work properly (currently at pin IO33).
 
 Note: You must clock the device itself ABOVE 2mhz. I've tested it up to 7mhz.
