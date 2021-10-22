@@ -21,3 +21,10 @@ The project includes a QSPI (Quad SPI) driver written for the specs of the 23LC5
 The other monitor function work as a typical WozMon would: (e.g.), https://www.sbprojects.net/projects/apple1/wozmon.php
 
 Feel free to contact me through the 6502 forum: http://forum.6502.org/memberlist.php?mode=viewprofile&u=3597
+
+//
+//   This work comprises a complete FPGA "System on a Chip" ("SoC") with a "soft" 
+//   65c816 CPU Core at its center.
+//
+//   Copyright (C) 2021  Jonathan Stein, New York, USA
+//
